@@ -1,12 +1,12 @@
 # This is a basic workflow to help you get started with Actions
 
-name: scheduler test
+name: Build test
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
 on:
   release:
-     types: [ published ] 
+     types: [ created ] 
       
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -20,8 +20,15 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
+    - uses: octokit/request-action@v2.x
+      id: get_latest_release
+      with:
+        route: GET /repos/:repository/releases/latest
+        repository: ${{ github.repository }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Telegram Message Notify
+    - name: Notify that deploy starts
       uses: appleboy/telegram-action@0.0.7
       with:
         token: ${{ secrets.TG_BOT_TOKEN }}        
@@ -29,7 +36,7 @@ jobs:
         format: markdown
         message: |
           **FTB-ADMIN**
-          Release ${{ GITHUB_REF }} is building and shipping to production
+          Release `${{ steps.get_latest_release.outputs.data.tag_name }}` is building and shipping to production
     
     - name: Build
       run: echo "I'm building"
