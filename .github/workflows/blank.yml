@@ -5,7 +5,8 @@ name: scheduler test
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
 on:
-  [push]
+  release:
+     types: [ published ] 
       
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -25,5 +26,52 @@ jobs:
       with:
         token: ${{ secrets.TG_BOT_TOKEN }}        
         to: ${{ secrets.TG_CICD_CHANNEL_ID }}
+        format: markdown
         message: |
-          This is a test message from github workflow. We will be victorious
+          **FTB-ADMIN**
+          Release ${{ GITHUB_REF }} is building and shipping to production
+    
+    - name: Build
+      run: echo "I'm building"
+      
+    - name: Build Failure
+      if: ${{ failure() }}
+      uses: appleboy/telegram-action@0.0.7
+      with:
+        token: ${{ secrets.TG_BOT_TOKEN }}        
+        to: ${{ secrets.TG_CICD_CHANNEL_ID }}
+        format: markdown
+        message: |
+          **FTB-ADMIN**
+          ⚠️ Release ${{ GITHUB_REF }} has failed at build state ⚠️
+                
+    - name: Deploy
+      if: ${{ success() }}
+      run: echo "I'm deploying"
+      
+    - name: Build
+      run: echo "I'm building"
+      
+    - name: Deploy Failure
+      if: ${{ failure() }}
+      uses: appleboy/telegram-action@0.0.7
+      with:
+        token: ${{ secrets.TG_BOT_TOKEN }}        
+        to: ${{ secrets.TG_CICD_CHANNEL_ID }}
+        format: markdown
+        message: |
+          **FTB-ADMIN**
+          ⚠️ Release ${{ GITHUB_REF }} has failed at deploy state ⚠️
+      
+    - name: Deploy Success
+      if: ${{ success() }}
+      uses: appleboy/telegram-action@0.0.7
+      with:
+        token: ${{ secrets.TG_BOT_TOKEN }}        
+        to: ${{ secrets.TG_CICD_CHANNEL_ID }}
+        format: markdown
+        message: |
+          **FTB-ADMIN**
+          ✅ Release ${{ GITHUB_REF }} landed on production 🎉
+          
+      
