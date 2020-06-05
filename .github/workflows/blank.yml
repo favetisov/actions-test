@@ -23,7 +23,7 @@ jobs:
     - name: Telegram Message Notify
       uses: appleboy/telegram-action@0.0.7
       with:
-        token: {{ secrets.TG_BOT_TOKEN }}        
-        to: {{ secrets.TG_CICD_CHANNEL_ID }}
+        token: ${{ secrets.TG_BOT_TOKEN }}        
+        to: ${{ secrets.TG_CICD_CHANNEL_ID }}
         message: |
           This is a test message from github workflow. We will be victorious
