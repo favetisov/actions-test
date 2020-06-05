@@ -50,7 +50,7 @@ jobs:
         format: markdown
         message: |
           **FTB-ADMIN**
-          ⚠️ Release ${{ GITHUB_REF }} has failed at build state ⚠️
+          ⚠️ Release `${{ steps.get_latest_release.outputs.data.tag_name }}` has failed at build state ⚠️
                 
     - name: Deploy
       if: ${{ success() }}
@@ -68,7 +68,7 @@ jobs:
         format: markdown
         message: |
           **FTB-ADMIN**
-          ⚠️ Release ${{ GITHUB_REF }} has failed at deploy state ⚠️
+          ⚠️ Release `${{ steps.get_latest_release.outputs.data.tag_name }}` has failed at deploy state ⚠️
       
     - name: Deploy Success
       if: ${{ success() }}
@@ -79,6 +79,6 @@ jobs:
         format: markdown
         message: |
           **FTB-ADMIN**
-          ✅ Release ${{ GITHUB_REF }} landed on production 🎉
+          ✅ Release`${{ steps.get_latest_release.outputs.data.tag_name }}` landed on production 🎉
           
       
