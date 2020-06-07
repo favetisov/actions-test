@@ -5,8 +5,8 @@ name: Build test
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
 on:
-  release:
-     types: [ released ] 
+  pull_request:
+     types: [ ready_for_review ] 
       
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -28,57 +28,5 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Notify that deploy starts
-      uses: appleboy/telegram-action@0.0.7
-      with:
-        token: ${{ secrets.TG_BOT_TOKEN }}        
-        to: ${{ secrets.TG_CICD_CHANNEL_ID }}
-        format: markdown
-        message: |
-          **FTB-ADMIN**
-          Release `${{ steps.get_latest_release.outputs.data }}` is building and shipping to production
-    
-    - name: Build
-      run: echo "I'm building"
-      
-    - name: Build Failure
-      if: ${{ failure() }}
-      uses: appleboy/telegram-action@0.0.7
-      with:
-        token: ${{ secrets.TG_BOT_TOKEN }}        
-        to: ${{ secrets.TG_CICD_CHANNEL_ID }}
-        format: markdown
-        message: |
-          **FTB-ADMIN**
-          ⚠️ Release `${{ steps.get_latest_release.outputs.data }}` has failed at build state ⚠️
-                
-    - name: Deploy
-      if: ${{ success() }}
-      run: echo "I'm deploying"
-      
-    - name: Build
-      run: echo "I'm building"
-      
-    - name: Deploy Failure
-      if: ${{ failure() }}
-      uses: appleboy/telegram-action@0.0.7
-      with:
-        token: ${{ secrets.TG_BOT_TOKEN }}        
-        to: ${{ secrets.TG_CICD_CHANNEL_ID }}
-        format: markdown
-        message: |
-          **FTB-ADMIN**
-          ⚠️ Release `${{ steps.get_latest_release.outputs.data }}` has failed at deploy state ⚠️
-      
-    - name: Deploy Success
-      if: ${{ success() }}
-      uses: appleboy/telegram-action@0.0.7
-      with:
-        token: ${{ secrets.TG_BOT_TOKEN }}        
-        to: ${{ secrets.TG_CICD_CHANNEL_ID }}
-        format: markdown
-        message: |
-          **FTB-ADMIN**
-          ✅ Release`${{ steps.get_latest_release.outputs.data }}` landed on production 🎉
-          
-      
+    - name: echo
+      run: echo "on PR ready"
