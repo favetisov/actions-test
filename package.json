@@ -1,0 +1,23 @@
+{
+  "name": "actions-test",
+  "version": "0.0.1",
+  "description": "Temporary repo for testing github actions",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/favetisov/actions-test.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/favetisov/actions-test/issues"
+  },
+  "homepage": "https://github.com/favetisov/actions-test#readme",
+  "dependencies": {
+    "node-fetch": "^2.6.0",
+    "simple-git": "^2.6.0"
+  }
+}
