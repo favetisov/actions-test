@@ -22,6 +22,7 @@ const prNumber = prMergeBranch.split('/')[2];
 (async () => {
     const remote = await git.remote(['show', 'origin']);
     const [repoOwner, repoName] = remote.split('github.com/')[1].split("\n")[0].split('/');
+    console.log(remote);
     const prUrl = `https://github.com/${repoOwner}/${repoName}/pull/${prNumber}`;
     const response = await githubGraphql(`repository(name:"${repoName}", owner:"${repoOwner}"){
         pullRequest(number:${prNumber}) {
@@ -53,10 +54,10 @@ ${prUrl}`,
         await githubRest('POST', `/repos/${repoOwner}/${repoName}/pulls/${prNumber}/reviews`, {
             body: `[bot]
         Branch is not up to date with master. Please follow these steps:
-        1. Revert your PR state to 'draft'
+        1. Convert your PR state to 'draft'
         2. Merge master branch into this PR branch (\`${currentBranch}\`)
         3. Test that everything works fine
-        4. Change PE state to 'ready'`,
+        4. Change PR state to 'ready'`,
             event: 'COMMENT'
         });
         await git.reset(['--merge']);
