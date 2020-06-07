@@ -14,7 +14,7 @@ const notify = async (text) => {
 };
 
 (async () => {
-    await notify('im alive in GH' + emo.fire);
+    // await notify('im alive in GH' + emo.fire);
     const currentBranch = (await git.status()).current;
     const res = await git.mergeFromTo('master', currentBranch, ['--no-ff', '--no-commit']);
 })()
