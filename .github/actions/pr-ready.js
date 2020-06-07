@@ -18,4 +18,5 @@ const notify = async (text) => {
     const currentBranch = (await git.status()).current;
     const res = await git.mergeFromTo('master', currentBranch, ['--no-ff', '--no-commit']);
     console.log((await git.status()).modified);
+    await git.reset(['--merge']);
 })()
