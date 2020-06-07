@@ -17,5 +17,5 @@ const notify = async (text) => {
     // await notify('im alive in GH' + emo.fire);
     const currentBranch = (await git.status()).current;
     const res = await git.mergeFromTo('master', currentBranch, ['--no-ff', '--no-commit']);
-    console.log(res);
+    console.log((await git.status()).modified);
 })()
