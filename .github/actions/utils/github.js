@@ -15,8 +15,9 @@ const githubGraphql = async (query) => {
     headers,
     body: body,
   });
-  console.log(response.json());
-  return (await response.json()).data;
+  const json = await response.json();
+  console.log(json);
+  return json.data;
 };
 
 const githubRest = async (method, url, body) => {
