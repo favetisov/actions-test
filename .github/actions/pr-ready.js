@@ -16,14 +16,15 @@ const  emo = require('./utils/emoji');
 // };
 
 const prMergeBranch = process.env.GITHUB_REF;
+console.log(prMergeBranch);
 // const prMergeBranch = 'refs/pull/7/merge'; // debug
 const prNumber = prMergeBranch.split('/')[2];
 
 (async () => {
     const remote = await git.remote(['show', 'origin']);
     const [repoOwner, repoName] = remote.split('github.com/')[1].split("\n")[0].split('/');
-    console.log(remote);
     const prUrl = `https://github.com/${repoOwner}/${repoName}/pull/${prNumber}`;
+    console.log(repoOwner, repoName, prNumber)
     const response = await githubGraphql(`repository(name:"${repoName}", owner:"${repoOwner}"){
         pullRequest(number:${prNumber}) {
             title
