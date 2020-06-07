@@ -23,7 +23,7 @@ jobs:
         with:
           node-version: '14'
       - run: npm ci
-      - run: node ./.github/actions/deploy.js
+      - run: node ./.github/actions/pr-ready.js
         env:
           IPAPI_KEY: ${{ secrets.IPAPI_KEY }}
           FIREBASE_APIKEY: ${{ secrets.FIREBASE_APIKEY }}
