@@ -1,4 +1,5 @@
 const { botRequest } = require('./utils/bot-request');
+const ghTgAliases = require('./utils/gh-tg-aliases');
 const git = require('simple-git/promise')(__dirname + '/../../');
 const  emo = require('./utils/emoji');
 
@@ -14,9 +15,18 @@ const notify = async (text) => {
 };
 
 (async () => {
-    // await notify('im alive in GH' + emo.fire);
+
+    // const updates = await botRequest('getUpdates');
+    // console.log(JSON.stringify(updates));
+    // await botRequest('sendMessage', { chat_id: ghTgAliases.tonypizzicato.chat, text: 'Bro it\'s me, bot. ' + emo.wave + 'Rise and shine!'});
+
     const currentBranch = (await git.status()).current;
-    const res = await git.mergeFromTo('master', currentBranch, ['--no-ff', '--no-commit']);
-    console.log((await git.status()).modified);
+    await git.pull('origin', 'master');
+    await git.mergeFromTo('master', currentBranch, ['--no-ff', '--no-commit']);
+    const modifiedFiles = ((await git.status()).modified);
+    if (modifiedFiles.length) {
+        await notify(emo.no_entry + 'PR ');
+        throw new Error('Branch is not up to date with master. You should first merge master into your branch, then test your code and only then mark PR as "ready"');
+    }
     await git.reset(['--merge']);
 })()
