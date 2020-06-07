@@ -16,8 +16,6 @@ const notify = async (text) => {
 (async () => {
     const currentBranch = (await git.status()).current;
     console.log(currentBranch);
-    const res =  await git.mergeFromTo('master', currentBranch, ['--no-commit'], (...res) => {
-        console.log(res);
-    })
+    const res =  await git.mergeFromTo('master', currentBranch, ['--no-commit']);
     console.log(res);
 })()
