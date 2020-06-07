@@ -33,6 +33,7 @@ const prNumber = prMergeBranch.split('/')[2];
             }
         }
     }`);
+
     const prTitle = response.repository.pullRequest.title;
     const prAuthor = response.repository.pullRequest.author.login;
     const tgUser = ghTgAliases[prAuthor];
