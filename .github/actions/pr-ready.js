@@ -21,53 +21,50 @@ const  emo = require('./utils/emoji');
 // const prNumber = prMergeBranch.split('/')[2];
 
 (async () => {
-    console.log((await git.log()).all[0]);
-    const remote = await git.remote(['show', 'origin']);
-    console.log(remote);
-//     const [repoOwner, repoName] = remote.split('github.com/')[1].split("\n")[0].split('/');
-//     const prUrl = `https://github.com/${repoOwner}/${repoName}/pull/${prNumber}`;
-//     console.log(repoOwner, repoName, prNumber)
-//     const response = await githubGraphql(`repository(name:"${repoName}", owner:"${repoOwner}"){
-//         pullRequest(number:${prNumber}) {
-//             title
-//             author {
-//                 login
-//             }
-//         }
-//     }`);
-//
-//     const prTitle = response.repository.pullRequest.title;
-//     const prAuthor = response.repository.pullRequest.author.login;
-//     const tgUser = ghTgAliases[prAuthor];
-//
-//     const currentBranch = (await git.status()).current;
-//     await git.pull('origin', 'master', ['--allow-unrelated-histories']);
-//     await git.mergeFromTo('master', currentBranch, ['--no-ff', '--no-commit', '--allow-unrelated-histories']);
-//     const modifiedFiles = ((await git.status()).modified);
-//     console.log(modifiedFiles);
-//     if (modifiedFiles.length) {
-//         if (tgUser) {
-//             await botRequest('sendMessage', {
-//                 chat_id: tgUser.chatId,
-//                 text: `${emo.no_entry} *PR "${prTitle}" declined* ${emo.no_entry}
-// PR branch is not up to date with master. Merging is prohibited. See PR comment for details
-// ${prUrl}`,
-//                 parse_mode: 'markdown'
-//                 })
-//         }
-//
-//         await githubRest('POST', `/repos/${repoOwner}/${repoName}/pulls/${prNumber}/reviews`, {
-//             body: `[bot]
-//         Branch is not up to date with master. Please follow these steps:
-//         1. Convert your PR state to 'draft'
-//         2. Merge master branch into this PR branch (\`${currentBranch}\`)
-//         3. Test that everything works fine
-//         4. Change PR state to 'ready'`,
-//             event: 'COMMENT'
-//         });
-//         await git.reset(['--merge']);
-//         throw new Error('Branch is not up to date with master. You should first merge master into your branch, then test your code and only then mark PR as "ready"');
-//     }
-//     await git.reset(['--merge']);
+    const [repoOwner, repoName] = remote.split('github.com/')[1].split("\n")[0].split('/');
+    const prUrl = `https://github.com/${repoOwner}/${repoName}/pull/${prNumber}`;
+    console.log(repoOwner, repoName, prNumber)
+    const response = await githubGraphql(`repository(name:"${repoName}", owner:"${repoOwner}"){
+        pullRequest(number:${prNumber}) {
+            title
+            author {
+                login
+            }
+        }
+    }`);
+
+    const prTitle = response.repository.pullRequest.title;
+    const prAuthor = response.repository.pullRequest.author.login;
+    const tgUser = ghTgAliases[prAuthor];
+
+    const currentBranch = (await git.status()).current;
+    await git.pull('origin', 'master', ['--allow-unrelated-histories']);
+    await git.mergeFromTo('master', currentBranch, ['--no-ff', '--no-commit', '--allow-unrelated-histories']);
+    const modifiedFiles = ((await git.status()).modified);
+    console.log(modifiedFiles);
+    if (modifiedFiles.length) {
+        if (tgUser) {
+            await botRequest('sendMessage', {
+                chat_id: tgUser.chatId,
+                text: `${emo.no_entry} *PR "${prTitle}" declined* ${emo.no_entry}
+PR branch is not up to date with master. Merging is prohibited. See PR comment for details
+${prUrl}`,
+                parse_mode: 'markdown'
+                })
+        }
+
+        await githubRest('POST', `/repos/${repoOwner}/${repoName}/pulls/${prNumber}/reviews`, {
+            body: `[bot]
+        Branch is not up to date with master. Please follow these steps:
+        1. Convert your PR state to 'draft'
+        2. Merge master branch into this PR branch (\`${currentBranch}\`)
+        3. Test that everything works fine
+        4. Change PR state to 'ready'`,
+            event: 'COMMENT'
+        });
+        await git.reset(['--merge']);
+        throw new Error('Branch is not up to date with master. You should first merge master into your branch, then test your code and only then mark PR as "ready"');
+    }
+    await git.reset(['--merge']);
 
 })()
