@@ -38,8 +38,8 @@ const prNumber = prMergeBranch.split('/')[2];
     const tgUser = ghTgAliases[prAuthor];
 
     const currentBranch = (await git.status()).current;
-    await git.pull('origin', 'master', ['--allow-unrelated-histories']);
-    await git.mergeFromTo('master', currentBranch, ['--no-ff', '--no-commit', '--allow-unrelated-histories']);
+    // await git.pull('origin', 'master', ['--allow-unrelated-histories']);
+    await git.mergeFromTo('origin/master', currentBranch, ['--no-ff', '--no-commit', '--allow-unrelated-histories']);
     const modifiedFiles = ((await git.status()).modified);
     console.log(modifiedFiles);
     if (modifiedFiles.length) {
