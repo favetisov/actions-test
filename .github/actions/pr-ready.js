@@ -4,6 +4,8 @@ const ghTgAliases = require('./utils/gh-tg-aliases');
 const git = require('simple-git/promise')(__dirname + '/../../');
 const  emo = require('./utils/emoji');
 const { exec } = require('child_process');
+const actionsCore = require('@actions/core');
+
 
 // const { TG_CICD_CHANNEL_ID } = process.env;
 // const TG_CICD_CHANNEL_ID = -1001273536067; // for testing
@@ -24,10 +26,10 @@ try {
         // await git.addConfig('user.email', 'favetisov@gmail.com');
         // await git.addConfig('user.name', 'Fedor Avetisov');
 
-        const diff = await git.diff(['origin/master', 'HEAD']);
-        if (diff) {
-            throw new Error('HAS DIFF');
-        }
+        // const diff = await git.diff(['origin/master', 'HEAD']);
+        // if (diff) {
+        //     throw new Error('HAS DIFF');
+        // }
 
 
 //
@@ -53,9 +55,9 @@ try {
 //
 //         const currentBranch = (await git.status()).current;
 //         await git.pull('origin', 'master', []);
-//         await git.mergeFromTo('master', currentBranch, ['--no-ff', '--no-commit']);
-//         const modifiedFiles = ((await git.status()).modified);
-//         console.log(modifiedFiles);
+        await git.mergeFromTo('origin/master', 'HEAD', ['--no-ff', '--no-commit']);
+        const modifiedFiles = ((await git.status()).modified);
+        console.log(modifiedFiles);
 //         if (modifiedFiles.length) {
 //             if (tgUser) {
 //                 await botRequest('sendMessage', {
@@ -84,6 +86,6 @@ try {
     })()
 } catch (e) {
     console.error(e);
-    process.exit(1);
+    actionsCore.setFailure(e);
 }
 
