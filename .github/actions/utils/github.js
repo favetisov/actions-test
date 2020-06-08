@@ -1,6 +1,7 @@
 const fetch = require('node-fetch');
 
 const { token } = process.env.GITHUB_TOKEN;
+console.log(JSON.stringify(process.env));
 // const token = '3d13c9bbb07a51ec5408c92652144dfe1a13a55d'; // for testing
 
 console.log(token);
