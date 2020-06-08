@@ -66,5 +66,5 @@ ${prUrl}`,
         throw new Error('Branch is not up to date with master. You should first merge master into your branch, then test your code and only then mark PR as "ready"');
     }
     await git.reset(['--merge']);
-
+    console.log('everything went fine');
 })()
