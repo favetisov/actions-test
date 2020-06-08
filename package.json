@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/favetisov/actions-test#readme",
   "dependencies": {
+    "@actions/core": "^1.2.4",
     "node-fetch": "^2.6.0",
     "simple-git": "^2.6.0"
   }
