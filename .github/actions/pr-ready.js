@@ -20,10 +20,8 @@ const  emo = require('./utils/emoji');
 try {
     (async () => {
 
-        console.log(process.env);
-        // result.authToken = core.getInput('token')
-        // SSH
-        // result.sshKey = core.getInput('ssh-key')
+        await git.addConfig('user.email', 'action@github.com');
+        await git.addConfig('user.name', 'GitHub Action');
 
         const prMergeBranch = 'refs/pull/7/merge'; // debug
         const prNumber = prMergeBranch.split('/')[2];
