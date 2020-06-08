@@ -39,7 +39,7 @@ const prNumber = prMergeBranch.split('/')[2];
     const tgUser = ghTgAliases[prAuthor];
 
     const currentBranch = (await git.status()).current;
-    await git.pull('origin', 'master');
+    // await git.pull('origin', 'master');
     await git.mergeFromTo('master', currentBranch, ['--no-ff', '--no-commit']);
     const modifiedFiles = ((await git.status()).modified);
     if (modifiedFiles.length) {
