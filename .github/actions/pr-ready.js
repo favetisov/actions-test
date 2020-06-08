@@ -84,6 +84,6 @@ try {
     })()
 } catch (e) {
     console.error(e);
-    process.abort(1);
+    process.exit(1);
 }
 
