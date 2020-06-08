@@ -25,7 +25,9 @@ try {
         // await git.addConfig('user.name', 'Fedor Avetisov');
 
         const diff = await git.diff(['origin/master', 'HEAD']);
-        console.log(diff, 'diff');
+        if (diff) {
+            throw new Error('HAS DIFF');
+        }
 
 
 //
