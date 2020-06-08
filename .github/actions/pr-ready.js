@@ -23,7 +23,7 @@ try {
         // await git.addConfig('user.email', 'favetisov@gmail.com');
         // await git.addConfig('user.name', 'Fedor Avetisov');
 
-        const diff = await git.diff(['test-merge', 'origin/master']);
+        const diff = await git.diff(['origin/master', 'HEAD']);
         console.log(diff, 'diff');
 
 
