@@ -15,10 +15,10 @@ const  emo = require('./utils/emoji');
 //     });
 // };
 
-// const prMergeBranch = process.env.GITHUB_REF;
-// console.log(prMergeBranch);
-// // const prMergeBranch = 'refs/pull/7/merge'; // debug
-// const prNumber = prMergeBranch.split('/')[2];
+const prMergeBranch = process.env.GITHUB_REF;
+console.log(prMergeBranch);
+// const prMergeBranch = 'refs/pull/7/merge'; // debug
+const prNumber = prMergeBranch.split('/')[2];
 
 (async () => {
     const remote = await git.remote(['show', 'origin']);
