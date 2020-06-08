@@ -21,6 +21,7 @@ const  emo = require('./utils/emoji');
 // const prNumber = prMergeBranch.split('/')[2];
 
 (async () => {
+    const remote = await git.remote(['show', 'origin']);
     const [repoOwner, repoName] = remote.split('github.com/')[1].split("\n")[0].split('/');
     const prUrl = `https://github.com/${repoOwner}/${repoName}/pull/${prNumber}`;
     console.log(repoOwner, repoName, prNumber)
