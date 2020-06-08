@@ -22,6 +22,7 @@ try {
         const prMergeBranch = 'refs/pull/7/merge'; // debug
         const prNumber = prMergeBranch.split('/')[2];
         const remote = await git.remote(['show', 'origin']);
+        console.log(remote);
         const [repoOwner, repoName] = remote.split('github.com/')[1].split("\n")[0].split('/');
         const prUrl = `https://github.com/${repoOwner}/${repoName}/pull/${prNumber}`;
         console.log(repoOwner, repoName, prNumber)
@@ -33,8 +34,6 @@ try {
             }
         }
     }`);
-
-        console.log(await git.status());
 
         const prTitle = response.repository.pullRequest.title;
         const prAuthor = response.repository.pullRequest.author.login;
