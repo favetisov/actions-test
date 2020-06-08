@@ -19,6 +19,12 @@ const  emo = require('./utils/emoji');
 
 try {
     (async () => {
+
+        console.log(process.env);
+        // result.authToken = core.getInput('token')
+        // SSH
+        // result.sshKey = core.getInput('ssh-key')
+
         const prMergeBranch = 'refs/pull/7/merge'; // debug
         const prNumber = prMergeBranch.split('/')[2];
         const remote = await git.remote(['show', 'origin']);
