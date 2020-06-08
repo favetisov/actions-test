@@ -3,6 +3,7 @@ const { githubGraphql, githubRest } = require('./utils/github');
 const ghTgAliases = require('./utils/gh-tg-aliases');
 const git = require('simple-git/promise')(__dirname + '/../../');
 const  emo = require('./utils/emoji');
+const { exec } = require('child_process');
 
 // const { TG_CICD_CHANNEL_ID } = process.env;
 // const TG_CICD_CHANNEL_ID = -1001273536067; // for testing
