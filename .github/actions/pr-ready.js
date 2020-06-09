@@ -104,7 +104,7 @@ const run = async () => {
 //         console.log('everything went fine!');
 };
 
-run.then(() => {
+run().then(() => {
     console.log('ok');
 }).catch((e) => {
     console.error(e);
