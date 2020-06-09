@@ -34,6 +34,7 @@ const run = async () => {
         // const newRemote = `https://github.com/${repoOwner}/${repoName}`;
         await git.removeRemote('origin');
         await git.addRemote('origin', newRemote);
+        await git.fetch(['--all']);
         console.log(newRemote);
 
         // const remote = `https://${USER}:${PASS}@${REPO}`;
