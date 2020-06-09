@@ -19,12 +19,23 @@ const actionsCore = require('@actions/core');
 // };
 
 // const prMergeBranch = process.env.GITHUB_REF;
+const { GITHUB_TOKEN } = process.env;
 
 try {
     (async () => {
 
-        // await git.addConfig('user.email', 'favetisov@gmail.com');
-        // await git.addConfig('user.name', 'Fedor Avetisov');
+        await git.addConfig('user.email', 'action@github.com');
+        await git.addConfig('user.name', 'GitHub Action');
+
+        const remote = await git.remote(['show', 'origin']);
+        const [repoOwner, repoName] = remote.split('github.com/')[1].split("\n")[0].split('/');
+        const newRemote = `https://action:${GITHUB_TOKEN}@github.com/${repoOwner}/${repoName}`;
+        await git.removeRemote('origin');
+        await git.addRemote('origin', newRemote);
+        console.log(newRemote);
+
+        // const remote = `https://${USER}:${PASS}@${REPO}`;
+
 
         // const diff = await git.diff(['origin/master', 'HEAD']);
         // if (diff) {
@@ -55,9 +66,15 @@ try {
 //
 //         const currentBranch = (await git.status()).current;
 //         await git.pull('origin', 'master', []);
-        await git.mergeFromTo('master', 'HEAD', ['--no-ff', '--no-commit']);
-        const modifiedFiles = ((await git.status()).modified);
-        console.log(modifiedFiles);
+        try {
+            await git.mergeFromTo('master', 'HEAD', ['--no-ff', '--no-commit']);
+            const modifiedFiles = ((await git.status()).modified);
+            console.log(modifiedFiles);
+        } catch (e) {
+            await git.reset(['--merge']);
+            console.log('conflict!');
+        }
+
 //         if (modifiedFiles.length) {
 //             if (tgUser) {
 //                 await botRequest('sendMessage', {
