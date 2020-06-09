@@ -72,9 +72,8 @@ const run = async () => {
             await git.mergeFromTo('master', 'HEAD', ['--no-ff', '--no-commit']);
             const modifiedFiles = ((await git.status()).modified);
             console.log(modifiedFiles);
-        } catch (e) {
+        } finally {
             await git.reset(['--merge']);
-            process.exit(254);
         }
 
 //         if (modifiedFiles.length) {
@@ -105,7 +104,7 @@ const run = async () => {
 };
 
 run().then(() => {
-    console.log('ok');
+    console.log('everything went fine');
 }).catch((e) => {
     console.error(e);
     process.exit(254);
