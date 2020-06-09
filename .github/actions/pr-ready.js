@@ -69,7 +69,7 @@ const run = async () => {
 //         const currentBranch = (await git.status()).current;
 //         await git.pull('origin', 'master', []);
         try {
-            await git.mergeFromTo('master', 'HEAD', ['--no-ff', '--no-commit']);
+            await git.mergeFromTo('origin/master', 'HEAD', ['--no-ff', '--no-commit']);
             const modifiedFiles = ((await git.status()).modified);
             console.log(modifiedFiles);
         } finally {
