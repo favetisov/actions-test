@@ -55,7 +55,7 @@ try {
 //
 //         const currentBranch = (await git.status()).current;
 //         await git.pull('origin', 'master', []);
-        await git.mergeFromTo('origin/master', 'HEAD', ['--no-ff', '--no-commit']);
+        await git.mergeFromTo('master', 'HEAD', ['--no-ff', '--no-commit']);
         const modifiedFiles = ((await git.status()).modified);
         console.log(modifiedFiles);
 //         if (modifiedFiles.length) {
