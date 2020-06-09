@@ -21,8 +21,7 @@ const actionsCore = require('@actions/core');
 // const prMergeBranch = process.env.GITHUB_REF;
 const { GITHUB_TOKEN } = process.env;
 
-try {
-    (async () => {
+const run = async () => {
 
         await git.addConfig('user.email', 'action@github.com');
         await git.addConfig('user.name', 'GitHub Action');
@@ -75,7 +74,7 @@ try {
             console.log(modifiedFiles);
         } catch (e) {
             await git.reset(['--merge']);
-            console.log('conflict!');
+            process.exit(254);
         }
 
 //         if (modifiedFiles.length) {
@@ -103,9 +102,12 @@ try {
 //         }
 //         await git.reset(['--merge']);
 //         console.log('everything went fine!');
-    })()
-} catch (e) {
+};
+
+run.then(() => {
+    console.log('ok');
+}).catch((e) => {
     console.error(e);
-    actionsCore.setFailure(e);
-}
+    process.exit(254);
+})
 
