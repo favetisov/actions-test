@@ -26,10 +26,13 @@ try {
 
         await git.addConfig('user.email', 'action@github.com');
         await git.addConfig('user.name', 'GitHub Action');
+        // await git.addConfig('user.email', 'favetisov@gmail.com');
+        // await git.addConfig('user.name', 'Fedor Avetisov');
 
         const remote = await git.remote(['show', 'origin']);
         const [repoOwner, repoName] = remote.split('github.com/')[1].split("\n")[0].split('/');
         const newRemote = `https://action:${GITHUB_TOKEN}@github.com/${repoOwner}/${repoName}`;
+        // const newRemote = `https://github.com/${repoOwner}/${repoName}`;
         await git.removeRemote('origin');
         await git.addRemote('origin', newRemote);
         console.log(newRemote);
