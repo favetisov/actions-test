@@ -38,8 +38,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 exports.githubRest = exports.githubGraphql = void 0;
 var node_fetch_1 = require("node-fetch");
-// const token = process.env.GITHUB_TOKEN;
-var token = '3d13c9bbb07a51ec5408c92652144dfe1a13a55d'; // for testing
+var token = process.env.GITHUB_TOKEN;
+// const token = '3d13c9bbb07a51ec5408c92652144dfe1a13a55d'; // for testing
 exports.githubGraphql = function (query) { return __awaiter(void 0, void 0, void 0, function () {
     var body, headers, response, json;
     return __generator(this, function (_a) {

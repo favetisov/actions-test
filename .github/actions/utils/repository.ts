@@ -1,4 +1,3 @@
-import {Subject} from "rxjs";
 const git = require('simple-git/promise')(__dirname + '/../../');
 
 export const getRepository = async () => {
