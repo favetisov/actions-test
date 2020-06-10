@@ -40,28 +40,32 @@ var repository_1 = require("./utils/repository");
 var pr_1 = require("./utils/pr");
 // const prMergeBranch = process.env.GITHUB_REF;
 var prMergeBranch = 'refs/pull/7/merge'; // debug
-try {
-    (function () { return __awaiter(void 0, void 0, void 0, function () {
-        var repo, pr;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, repository_1.getRepository()];
-                case 1:
-                    repo = _a.sent();
-                    return [4 /*yield*/, pr_1.getPr(prMergeBranch, repo)];
-                case 2:
-                    pr = _a.sent();
-                    if (repo.isUpToDate()) {
-                    }
-                    else {
-                        // pr.leaveComment()
-                    }
-                    return [2 /*return*/];
-            }
-        });
-    }); })();
-}
-catch (e) {
+var run = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var repo, pr;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, repository_1.getRepository()];
+            case 1:
+                repo = _a.sent();
+                return [4 /*yield*/, pr_1.getPr(prMergeBranch, repo)];
+            case 2:
+                pr = _a.sent();
+                return [4 /*yield*/, repo.isUpToDate()];
+            case 3:
+                if (!_a.sent()) return [3 /*break*/, 4];
+                console.log('repo is up to date');
+                return [3 /*break*/, 6];
+            case 4: return [4 /*yield*/, pr.leaveComment(" Branch is not up to date with master. Please follow these steps:\n            1. Convert your PR state to 'draft'\n            2. Merge master branch into this PR branch (`" + repo.currentBranch + "`)\n            3. Test that everything works fine\n            4. Change PR state to 'ready'")];
+            case 5:
+                _a.sent();
+                _a.label = 6;
+            case 6: return [2 /*return*/];
+        }
+    });
+}); };
+run().then(function () {
+    console.log("everything's fine");
+})["catch"](function (e) {
     console.error(e);
     process.exit(254);
-}
+});

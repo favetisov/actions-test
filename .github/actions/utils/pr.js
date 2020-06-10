@@ -66,7 +66,6 @@ var Pr = /** @class */ (function () {
                     case 0: return [4 /*yield*/, github_1.githubGraphql("repository(name:\"" + this.repo.name + "\", owner:\"" + this.repo.owner + "\"){\n        pullRequest(number:" + this.number + ") { title, author {login } }\n    }")];
                     case 1:
                         response = _a.sent();
-                        console.log(response);
                         this.title = response.repository.pullRequest.title;
                         this.authorLogin = response.repository.pullRequest.author.login;
                         return [2 /*return*/];
