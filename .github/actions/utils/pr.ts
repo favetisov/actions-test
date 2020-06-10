@@ -21,7 +21,6 @@ export class Pr {
         const response = await githubGraphql(`repository(name:"${this.repo.name}", owner:"${this.repo.owner}"){
         pullRequest(number:${this.number}) { title, author {login } }
     }`);
-        console.log(response);
         this.title = response.repository.pullRequest.title;
         this.authorLogin = response.repository.pullRequest.author.login;
     }

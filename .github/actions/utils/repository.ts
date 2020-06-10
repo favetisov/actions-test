@@ -24,6 +24,6 @@ export class Repository {
     }
 
     async isUpToDate() {
-        return true;
+        return false;
     }
 }

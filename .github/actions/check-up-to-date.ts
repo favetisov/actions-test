@@ -9,10 +9,14 @@ try {
     (async() => {
         const repo = await getRepository();
         const pr = await getPr(prMergeBranch, repo);
-        if (repo.isUpToDate()) {
-
+        if (await repo.isUpToDate()) {
+            console.log('repo is up to date');
         } else {
-            // pr.leaveComment()
+            await pr.leaveComment(` Branch is not up to date with master. Please follow these steps:
+            1. Convert your PR state to 'draft'
+            2. Merge master branch into this PR branch (\`${repo.currentBranch}\`)
+            3. Test that everything works fine
+            4. Change PR state to 'ready'`);
         }
     })();
 } catch (e) {
