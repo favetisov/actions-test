@@ -24,6 +24,7 @@ export class Repository {
     }
 
     async isUpToDate() {
+        await git.mergeFromTo('origin/master', 'HEAD', ['--no-ff', '--no-commit']);
         return false;
     }
 }
