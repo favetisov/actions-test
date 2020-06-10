@@ -24,7 +24,17 @@ export class Repository {
     }
 
     async isUpToDate() {
-        await git.mergeFromTo('origin/master', 'HEAD', ['--no-ff', '--no-commit']);
-        return false;
+        try {
+            await git.mergeFromTo('origin/master', 'HEAD', ['--no-ff', '--no-commit']);
+            const modifiedFiles = ((await git.status()).modified);
+            if (modifiedFiles.length) {
+                throw new Error('Has modified files: ' + modifiedFiles.join(', '))
+            }
+            return true;
+        } catch (e) {
+            return false;
+        } finally {
+            await git.reset(['--merge']);
+        }
     }
 }
