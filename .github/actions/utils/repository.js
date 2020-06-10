@@ -56,7 +56,7 @@ var Repository = /** @class */ (function () {
     }
     Repository.prototype.init = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var remote, _a;
+            var remote, newRemote, _a;
             var _b;
             return __generator(this, function (_c) {
                 switch (_c.label) {
@@ -64,22 +64,25 @@ var Repository = /** @class */ (function () {
                     case 1:
                         remote = _c.sent();
                         _b = remote.split('github.com/')[1].split("\n")[0].split('/'), this.owner = _b[0], this.name = _b[1];
-                        // const newRemote = `https://action:${process.env.GITHUB_TOKEN}@github.com/${this.owner}/${this.name}`;
-                        // await git.addConfig('user.email', 'action@github.com');
-                        // await git.addConfig('user.name', 'GitHub Action');
-                        // await git.removeRemote('origin');
-                        // await git.addRemote('origin', newRemote);
-                        return [4 /*yield*/, git.fetch(['--all'])];
+                        newRemote = "https://action:" + process.env.GITHUB_TOKEN + "@github.com/" + this.owner + "/" + this.name;
+                        return [4 /*yield*/, git.addConfig('user.email', 'action@github.com')];
                     case 2:
-                        // const newRemote = `https://action:${process.env.GITHUB_TOKEN}@github.com/${this.owner}/${this.name}`;
-                        // await git.addConfig('user.email', 'action@github.com');
-                        // await git.addConfig('user.name', 'GitHub Action');
-                        // await git.removeRemote('origin');
-                        // await git.addRemote('origin', newRemote);
+                        _c.sent();
+                        return [4 /*yield*/, git.addConfig('user.name', 'GitHub Action')];
+                    case 3:
+                        _c.sent();
+                        return [4 /*yield*/, git.removeRemote('origin')];
+                    case 4:
+                        _c.sent();
+                        return [4 /*yield*/, git.addRemote('origin', newRemote)];
+                    case 5:
+                        _c.sent();
+                        return [4 /*yield*/, git.fetch(['--all'])];
+                    case 6:
                         _c.sent();
                         _a = this;
                         return [4 /*yield*/, git.status()];
-                    case 3:
+                    case 7:
                         _a.currentBranch = (_c.sent()).current;
                         return [2 /*return*/];
                 }
