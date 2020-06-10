@@ -39,7 +39,7 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
       - run: npm ci
-      - run: node ./.github/actions/pr-ready.js
+      - run: node .github/actions/check-up-to-date.js
         env:
           IPAPI_KEY: ${{ secrets.IPAPI_KEY }}
           FIREBASE_APIKEY: ${{ secrets.FIREBASE_APIKEY }}

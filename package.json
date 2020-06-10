@@ -18,7 +18,14 @@
   "homepage": "https://github.com/favetisov/actions-test#readme",
   "dependencies": {
     "@actions/core": "^1.2.4",
+    "@types/node": "^14.0.13",
+    "esm": "^3.2.25",
     "node-fetch": "^2.6.0",
-    "simple-git": "^2.6.0"
+    "prettier": "^2.0.5",
+    "rxjs": "^6.5.5",
+    "rxjs-compat": "^6.5.5",
+    "simple-git": "^2.6.0",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.5"
   }
 }
