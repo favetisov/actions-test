@@ -79,7 +79,7 @@ var Pr = /** @class */ (function () {
             return __generator(this, function (_a) {
                 return [2 /*return*/, github_1.githubRest('POST', "/repos/" + this.repo.owner + "/" + this.repo.name + "/pulls/" + this.number + "/reviews", {
                         body: text,
-                        event: 'COMMENT'
+                        event: 'REQUEST_CHANGES'
                     })];
             });
         });

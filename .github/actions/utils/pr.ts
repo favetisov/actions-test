@@ -29,7 +29,7 @@ export class Pr {
     async leaveComment(text) {
         return githubRest('POST', `/repos/${this.repo.owner}/${this.repo.name}/pulls/${this.number}/reviews`, {
             body: text,
-            event: 'COMMENT'
+            event: 'REQUEST_CHANGES'
         });
     }
 }
