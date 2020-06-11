@@ -102,6 +102,7 @@ var Repository = /** @class */ (function () {
                         return [4 /*yield*/, git.status()];
                     case 2:
                         modifiedFiles = ((_a.sent()).modified);
+                        console.log(modifiedFiles, 'modified files');
                         if (modifiedFiles.length) {
                             throw new Error('Has modified files: ' + modifiedFiles.join(', '));
                         }

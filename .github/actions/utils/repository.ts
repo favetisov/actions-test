@@ -27,6 +27,7 @@ export class Repository {
         try {
             await git.mergeFromTo('origin/master', 'HEAD', ['--no-ff', '--no-commit']);
             const modifiedFiles = ((await git.status()).modified);
+            console.log(modifiedFiles, 'modified files');
             if (modifiedFiles.length) {
                 throw new Error('Has modified files: ' + modifiedFiles.join(', '))
             }
