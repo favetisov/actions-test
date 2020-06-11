@@ -19,7 +19,6 @@ const run = async () => {
             3. Test that everything works fine
             4. Change PR state to 'ready'`);
 
-        console.log('sending');
         await tgClient.sendMessage(pr.authorLogin, `${emoji.no_entry} *PR "${pr.title}" declined* ${emoji.no_entry}
 PR branch is not up to date with master. Merging is prohibited. See PR comment for details
 ${pr.url}`)
