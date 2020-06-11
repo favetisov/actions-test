@@ -36,42 +36,48 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var repository_1 = require("./utils/repository");
-var pr_1 = require("./utils/pr");
-var telegram_1 = require("./utils/telegram");
-var emoji_1 = require("./utils/emoji");
-// const prMergeBranch = process.env.GITHUB_REF;
-var prMergeBranch = 'refs/pull/7/merge'; // debug
-var run = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var repo, pr, tgClient;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, repository_1.getRepository()];
-            case 1:
-                repo = _a.sent();
-                return [4 /*yield*/, pr_1.getPr(prMergeBranch, repo)];
-            case 2:
-                pr = _a.sent();
-                tgClient = new telegram_1.TgClient();
-                return [4 /*yield*/, repo.isUpToDate()];
-            case 3:
-                if (!_a.sent()) return [3 /*break*/, 4];
-                console.log('repo is up to date');
-                return [3 /*break*/, 7];
-            case 4: return [4 /*yield*/, pr.leaveComment(" Branch is not up to date with master. Please follow these steps:\n            1. Convert your PR state to 'draft'\n            2. Merge master branch into this PR branch (`" + repo.currentBranch + "`)\n            3. Test that everything works fine\n            4. Change PR state to 'ready'")];
-            case 5:
-                _a.sent();
-                return [4 /*yield*/, tgClient.sendMessage(pr.authorLogin, emoji_1.emoji.no_entry + " *PR \"" + pr.title + "\" declined* " + emoji_1.emoji.no_entry + "\nPR branch is not up to date with master. Merging is prohibited. See PR comment for details\n" + pr.url)];
-            case 6:
-                _a.sent();
-                throw new Error('Branch is not up to date');
-            case 7: return [2 /*return*/];
+exports.TgClient = void 0;
+var node_fetch_1 = require("node-fetch");
+var TgClient = /** @class */ (function () {
+    function TgClient() {
+        this.token = process.env.TG_BOT_TOKEN;
+        this.ghUsers = {
+            favetisov: { chatId: 109124816, login: '@favetisov' },
+            pyfuk: { chatId: 145871247, login: '@Shaxboz_Khalikov' },
+            tonypizzicato: { chatId: 397993844 }
+        };
+    }
+    TgClient.prototype.call = function (command, params) {
+        if (params === void 0) { params = {}; }
+        return __awaiter(this, void 0, void 0, function () {
+            var response;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, node_fetch_1["default"]("https://api.telegram.org/bot" + this.token + "/" + command, {
+                            method: 'POST',
+                            body: JSON.stringify(params),
+                            headers: { 'Content-Type': 'application/json' }
+                        })];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.json()];
+                }
+            });
+        });
+    };
+    TgClient.prototype.sendMessage = function (ghUser, text) {
+        var user = this.ghUsers[ghUser];
+        if (!user) {
+            console.warn("No telegram user set for github account '" + ghUser + "'");
         }
-    });
-}); };
-run().then(function () {
-    console.log("everything's fine");
-})["catch"](function (e) {
-    console.error(e);
-    process.exit(254);
-});
+        else {
+            return this.call('sendMessage', {
+                chat_id: user.chat_id,
+                text: text,
+                parse_mode: 'markdown'
+            });
+        }
+    };
+    return TgClient;
+}());
+exports.TgClient = TgClient;

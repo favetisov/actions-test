@@ -1,16 +1,15 @@
-import { emoji } from "./utils/emoji";
 import { getRepository } from "./utils/repository";
 import {getPr} from "./utils/pr";
+import {TgClient} from "./utils/telegram";
+import { emoji } from "./utils/emoji";
 
 // const prMergeBranch = process.env.GITHUB_REF;
 const prMergeBranch = 'refs/pull/7/merge'; // debug
 
 const run = async () => {
-    console.log('before repo');
     const repo = await getRepository();
-    console.log('before pr');
     const pr = await getPr(prMergeBranch, repo);
-    console.log('after pr');
+    const tgClient = new TgClient();
     if (await repo.isUpToDate()) {
         console.log('repo is up to date');
     } else {
@@ -19,7 +18,10 @@ const run = async () => {
             2. Merge master branch into this PR branch (\`${repo.currentBranch}\`)
             3. Test that everything works fine
             4. Change PR state to 'ready'`);
-
+        await tgClient.sendMessage(pr.authorLogin, `${emoji.no_entry} *PR "${pr.title}" declined* ${emoji.no_entry}
+PR branch is not up to date with master. Merging is prohibited. See PR comment for details
+${pr.url}`)
+        throw new Error('Branch is not up to date');
     }
 }
 
