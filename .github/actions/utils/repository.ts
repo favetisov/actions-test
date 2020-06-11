@@ -17,8 +17,8 @@ export class Repository {
         const newRemote = `https://action:${process.env.GITHUB_TOKEN}@github.com/${this.owner}/${this.name}`;
         await git.addConfig('user.email', 'action@github.com');
         await git.addConfig('user.name', 'GitHub Action');
-        // await git.removeRemote('origin');
-        // await git.addRemote('origin', newRemote);
+        await git.removeRemote('origin');
+        await git.addRemote('origin', newRemote);
         await git.fetch(['--all']);
         this.currentBranch = (await git.status()).current;
     }
