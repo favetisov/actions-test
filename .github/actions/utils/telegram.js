@@ -66,18 +66,30 @@ var TgClient = /** @class */ (function () {
         });
     };
     TgClient.prototype.sendMessage = function (ghUser, text) {
-        var user = this.ghUsers[ghUser];
-        if (!user) {
-            console.warn("No telegram user set for github account '" + ghUser + "'");
-        }
-        else {
-            console.log('sending message to ' + JSON.stringify(user));
-            return this.call('sendMessage', {
-                chat_id: user.chat_id,
-                text: text,
-                parse_mode: 'markdown'
+        return __awaiter(this, void 0, void 0, function () {
+            var user, response;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        user = this.ghUsers[ghUser];
+                        if (!!user) return [3 /*break*/, 1];
+                        console.warn("No telegram user set for github account '" + ghUser + "'");
+                        return [3 /*break*/, 3];
+                    case 1:
+                        console.log('sending message to ' + JSON.stringify(user));
+                        return [4 /*yield*/, this.call('sendMessage', {
+                                chat_id: user.chat_id,
+                                text: text,
+                                parse_mode: 'markdown'
+                            })];
+                    case 2:
+                        response = _a.sent();
+                        console.log(response);
+                        return [2 /*return*/, response];
+                    case 3: return [2 /*return*/];
+                }
             });
-        }
+        });
     };
     return TgClient;
 }());

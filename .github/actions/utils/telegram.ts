@@ -17,17 +17,19 @@ export class TgClient {
         return response.json();
     }
 
-    sendMessage(ghUser: string, text: string) {
+    async sendMessage(ghUser: string, text: string) {
         const user = this.ghUsers[ghUser];
         if (!user) {
             console.warn(`No telegram user set for github account '${ghUser}'`);
         } else {
             console.log('sending message to ' + JSON.stringify(user));
-            return this.call('sendMessage', {
+            const response = await this.call('sendMessage', {
                 chat_id: user.chat_id,
                 text,
                 parse_mode: 'markdown'
             })
+            console.log(response);
+            return response;
         }
     }
 }
