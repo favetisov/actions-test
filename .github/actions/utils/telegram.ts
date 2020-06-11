@@ -14,7 +14,11 @@ export class TgClient {
             body: JSON.stringify(params),
             headers: { 'Content-Type': 'application/json' },
         });
-        return response.json();
+        const json =  response.json();
+        if (!json.ok) {
+            throw new Error('Failed to execute telegram command: ' + JSON.stringify(json));
+        }
+        return json;
     }
 
     async sendMessage(ghUser: string, text: string) {
@@ -22,13 +26,11 @@ export class TgClient {
         if (!user) {
             console.warn(`No telegram user set for github account '${ghUser}'`);
         } else {
-            console.log('sending message to ' + JSON.stringify(user));
             const response = await this.call('sendMessage', {
-                chat_id: user.chat_id,
+                chat_id: user.chatId,
                 text,
                 parse_mode: 'markdown'
             })
-            console.log(response);
             return response;
         }
     }

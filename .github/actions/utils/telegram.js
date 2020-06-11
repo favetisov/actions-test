@@ -50,7 +50,7 @@ var TgClient = /** @class */ (function () {
     TgClient.prototype.call = function (command, params) {
         if (params === void 0) { params = {}; }
         return __awaiter(this, void 0, void 0, function () {
-            var response;
+            var response, json;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, node_fetch_1["default"]("https://api.telegram.org/bot" + this.token + "/" + command, {
@@ -60,7 +60,11 @@ var TgClient = /** @class */ (function () {
                         })];
                     case 1:
                         response = _a.sent();
-                        return [2 /*return*/, response.json()];
+                        json = response.json();
+                        if (!json.ok) {
+                            throw new Error('Failed to execute telegram command: ' + JSON.stringify(json));
+                        }
+                        return [2 /*return*/, json];
                 }
             });
         });
@@ -75,16 +79,13 @@ var TgClient = /** @class */ (function () {
                         if (!!user) return [3 /*break*/, 1];
                         console.warn("No telegram user set for github account '" + ghUser + "'");
                         return [3 /*break*/, 3];
-                    case 1:
-                        console.log('sending message to ' + JSON.stringify(user));
-                        return [4 /*yield*/, this.call('sendMessage', {
-                                chat_id: user.chat_id,
-                                text: text,
-                                parse_mode: 'markdown'
-                            })];
+                    case 1: return [4 /*yield*/, this.call('sendMessage', {
+                            chat_id: user.chatId,
+                            text: text,
+                            parse_mode: 'markdown'
+                        })];
                     case 2:
                         response = _a.sent();
-                        console.log(response);
                         return [2 /*return*/, response];
                     case 3: return [2 /*return*/];
                 }
