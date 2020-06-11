@@ -22,6 +22,7 @@ export class TgClient {
         if (!user) {
             console.warn(`No telegram user set for github account '${ghUser}'`);
         } else {
+            console.log('sending message to ' + JSON.stringify(user));
             return this.call('sendMessage', {
                 chat_id: user.chat_id,
                 text,

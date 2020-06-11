@@ -61,6 +61,7 @@ var run = function () { return __awaiter(void 0, void 0, void 0, function () {
             case 4: return [4 /*yield*/, pr.leaveComment(" Branch is not up to date with master. Please follow these steps:\n            1. Convert your PR state to 'draft'\n            2. Merge master branch into this PR branch (`" + repo.currentBranch + "`)\n            3. Test that everything works fine\n            4. Change PR state to 'ready'")];
             case 5:
                 _a.sent();
+                console.log('sending');
                 return [4 /*yield*/, tgClient.sendMessage(pr.authorLogin, emoji_1.emoji.no_entry + " *PR \"" + pr.title + "\" declined* " + emoji_1.emoji.no_entry + "\nPR branch is not up to date with master. Merging is prohibited. See PR comment for details\n" + pr.url)];
             case 6:
                 _a.sent();
