@@ -6,8 +6,11 @@ import {getPr} from "./utils/pr";
 const prMergeBranch = 'refs/pull/7/merge'; // debug
 
 const run = async () => {
+    console.log('before repo');
     const repo = await getRepository();
+    console.log('before pr');
     const pr = await getPr(prMergeBranch, repo);
+    console.log('after pr');
     if (await repo.isUpToDate()) {
         console.log('repo is up to date');
     } else {
@@ -16,6 +19,7 @@ const run = async () => {
             2. Merge master branch into this PR branch (\`${repo.currentBranch}\`)
             3. Test that everything works fine
             4. Change PR state to 'ready'`);
+
     }
 }
 

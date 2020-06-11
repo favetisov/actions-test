@@ -71,18 +71,16 @@ var Repository = /** @class */ (function () {
                         return [4 /*yield*/, git.addConfig('user.name', 'GitHub Action')];
                     case 3:
                         _c.sent();
-                        return [4 /*yield*/, git.removeRemote('origin')];
-                    case 4:
-                        _c.sent();
-                        return [4 /*yield*/, git.addRemote('origin', newRemote)];
-                    case 5:
-                        _c.sent();
+                        // await git.removeRemote('origin');
+                        // await git.addRemote('origin', newRemote);
                         return [4 /*yield*/, git.fetch(['--all'])];
-                    case 6:
+                    case 4:
+                        // await git.removeRemote('origin');
+                        // await git.addRemote('origin', newRemote);
                         _c.sent();
                         _a = this;
                         return [4 /*yield*/, git.status()];
-                    case 7:
+                    case 5:
                         _a.currentBranch = (_c.sent()).current;
                         return [2 /*return*/];
                 }

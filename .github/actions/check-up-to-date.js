@@ -44,12 +44,16 @@ var run = function () { return __awaiter(void 0, void 0, void 0, function () {
     var repo, pr;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, repository_1.getRepository()];
+            case 0:
+                console.log('before repo');
+                return [4 /*yield*/, repository_1.getRepository()];
             case 1:
                 repo = _a.sent();
+                console.log('before pr');
                 return [4 /*yield*/, pr_1.getPr(prMergeBranch, repo)];
             case 2:
                 pr = _a.sent();
+                console.log('after pr');
                 return [4 /*yield*/, repo.isUpToDate()];
             case 3:
                 if (!_a.sent()) return [3 /*break*/, 4];
